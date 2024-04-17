@@ -11,4 +11,7 @@ socialLinks:
   - title: Instagram
     url: 'https://instagram.com/joeblow'
     icon: instagram
+  - title: Email
+    url: 'mailto:alastair@alastaircox.com'
+    icon: mail
 order: 3

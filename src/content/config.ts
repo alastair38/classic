@@ -86,6 +86,20 @@ const pagesCollection = defineCollection({
           iconColor: z.enum(['primary', 'secondary', 'tertiary']).optional(),
         })
         .optional(),
+      cta: z
+        .object({
+          heading: z.string().optional(),
+          byline: z.string().optional(),
+          layout: z.enum(['default', 'reverse']).optional(),
+          shadow: z.boolean().optional(),
+          imgContain: z.boolean().optional(),
+          img: image().optional(),
+          imgAlt: z.string().optional(),
+          linkText: z.string().optional(),
+          linkStyle: z.string().optional(),
+          linkTarget: z.string().optional(),
+        })
+        .optional(),
     }),
 });
 

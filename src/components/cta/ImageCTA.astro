@@ -8,7 +8,7 @@ import Two from '@assets/images/cta/Two.png';
 import Three from '@assets/images/cta/Three.png';
 import Four from '@assets/images/cta/Four.png';
 import Five from '@assets/images/cta/Five.png';
-import Link from './Link.astro';
+import Link from '@components/utilities/Link.astro';
 
 let imgSrc: ImageMetadata = One;
 
@@ -19,7 +19,7 @@ const {
   border = true,
   image = 'One',
   shape = 'square',
-  background = 'defautl',
+  background = 'default',
   link = '/',
 } = Astro.props;
 
@@ -30,7 +30,7 @@ if (image === 'Three') imgSrc = Three;
 if (image === 'Five') imgSrc = Five;
 
 const styles = cva(
-  ' mx-auto grid border border-base-200 p8 rounded-md overflow-hidden shadow-xl',
+  ' mx-auto grid border border-base-200 rounded-md overflow-hidden shadow-xl w-full',
   {
     variants: {
       layout: {

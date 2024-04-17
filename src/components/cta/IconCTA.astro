@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { cva } from 'class-variance-authority';
-import Link from './Link.astro';
+import Link from '@components/utilities/Link.astro';
 
 const {
   title = 'Modular. Connected. Scaleable.',
@@ -30,35 +30,31 @@ const styles = cva('overflow-hidden mx-auto grid gap-6', {
   },
 });
 
-const shapeStyle = cva('aspect-square w-full p-2 md:p-8 h-auto my-auto', {
-  variants: {
-    shape: {
-      rounded: ['rounded-full'],
-      square: ['rounded-md '],
+const shapeStyle = cva(
+  'aspect-square w-full p-2 h-auto my-auto text-dark bg-tertiary-300',
+  {
+    variants: {
+      shape: {
+        rounded: ['rounded-full'],
+        square: ['rounded-md '],
+      },
+      layout: {
+        horizontal: ['md:p-8'],
+        vertical: ['md:p-12'],
+      },
     },
-  },
-});
+  }
+);
 ---
 
 <div class={styles({ border, layout })}>
-  <div
-    class="z-10 col-span-3 flex flex-col justify-between itemscenter gap-2 bg-primary-3/90"
-  >
+  <div class="z-10 col-span-3 flex flex-col justify-between itemscenter gap-2">
     <h2 class="font-black text-xl">{title}</h2>
     <p>{byline}</p>
     <Link intent="ghost" size="prose" href={link}>Learn more </Link>
   </div>
-  <Icon
-    class=`${shapeStyle({ shape })} bg-base-800/60 text-primary-400`
-    name={icons.one}
-  />
-  <Icon
-    class=`${shapeStyle({ shape })} bg-base-800/70 text-primary-400`
-    name={icons.two}
-  />
+  <Icon class={shapeStyle({ shape, layout })} name={icons.one} />
+  <Icon class={shapeStyle({ shape, layout })} name={icons.two} />
 
-  <Icon
-    class=`${shapeStyle({ shape })} bg-base-800/80 text-primary-400`
-    name={icons.three}
-  />
+  <Icon class={shapeStyle({ shape, layout })} name={icons.three} />
 </div>

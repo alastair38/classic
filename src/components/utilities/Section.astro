@@ -25,7 +25,12 @@ const section = cva('mx-auto not-prose col-start-2', {
     },
     layout: {
       default: ['space-y-6'],
-      grid: ['grid grid-cols-1 md:grid-cols-3 gap-12'],
+      grid: [
+        'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 lg:gap-12',
+      ],
+      autogrid: [
+        'grid grid-cols-1 md:grid-cols-2 lg:grid-flow-col gap-3 md:gap-6 lg:gap-12',
+      ],
     },
     type: {},
   },

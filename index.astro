@@ -1,6 +1,6 @@
 ---
-import Link from '@components/Link.astro';
-import Showcase from '@components/Showcase.astro';
+import Link from '@components/utilities/Link.astro';
+import Showcase from '@components/featured/Showcase.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
@@ -8,10 +8,10 @@ import { Image } from 'astro:assets';
 import featured from '../assets/images/red-black.jpg';
 import sitting from '../assets/images/sitting.png';
 import logo from '../icons/logo.svg';
-import Hero from '@components/Hero.astro';
-import ShowcaseSingle from '@components/ShowcaseSingle.astro';
-import CTA from '@components/IconCTA.astro';
-import PeopleTeaser from '@components/PeopleTeaser.astro';
+import Hero from '@components/featured/Hero.astro';
+import ShowcaseSingle from '@components/featured/ShowcaseSingle.astro';
+import CTA from '@components/cta/IconCTA.astro';
+import PeopleTeaser from '@components/people/Teaser.astro';
 import HomeLayout from '@layouts/HomeLayout.astro';
 
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';

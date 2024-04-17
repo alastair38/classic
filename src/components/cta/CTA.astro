@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import { cva } from 'class-variance-authority';
+import Sitting from '@assets/images/sitting.png';
+import Link from '@components/utilities/Link.astro';
+
+const {
+  heading = 'To grow your website, you need to release pages fast.',
+  byline = 'As you’re moving towards your goals, you also need to maintain a consistent brand and fast load times. Selecting the tools that make it all possible can significantly boost your progress.',
+  layout = 'default',
+  shadow = false,
+  imgContain = false,
+  img = Sitting,
+  imgAlt = '',
+  linkText = 'Find out more',
+  linkStyle = 'primary',
+  linkTarget = '/',
+} = Astro.props;
+
+const cta = cva('flex flex-col lg:flex-row items-center gap-3 lg:gap-12', {
+  variants: {
+    layout: {
+      default: ['flex-col lg:flex-row'],
+      reverse: ['flex-col-reverse lg:flex-row-reverse'],
+    },
+  },
+});
+
+const image = cva('w-44 h-44 lg:w-96 md:h-96', {
+  variants: {
+    shadow: {
+      false: [''],
+      true: ['rounded-md border-8 bg-base-100 border-light shadow-lg'],
+    },
+    imgContain: {
+      false: ['object-cover'],
+      true: ['object-contain'],
+    },
+  },
+});
+---
+
+<div class="space-y-6 lg:space-y-12">
+  <p class="text-xl md:text-3xl text-pretty text-center font-black">
+    {heading}
+  </p>
+  <div class={cta({ layout })}>
+    <Image class={image({ shadow, imgContain })} src={img} alt={imgAlt} />
+    <div class="gap-6 flex flex-col items-center md:items-start">
+      <p class="text-center lg:text-left text-pretty">
+        {byline}
+      </p>
+      <Link intent={linkStyle} size="small" href={linkTarget}>{linkText}</Link>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import { cva } from 'class-variance-authority';
-import Link from './Link.astro';
+import Link from '@components/utilities/Link.astro';
 import { getEntry } from 'astro:content';
-import Separator from './Separator.astro';
 import { Icon } from 'astro-icon/components';
 
 const siteSettings = await getEntry('settings', 'site');

@@ -27,10 +27,12 @@ export default {
     extend: {
       backgroundImage: {
         'hero-pattern': "url('/mazey.svg')",
+        pattern: "url('/maze2.svg')",
       },
       gridTemplateColumns: {
         // Simple 16 column grid
         main: 'minmax(0.75rem, 3rem) 1fr minmax(0.75rem, 3rem)',
+        mobile: '0.75rem 1fr 0.75rem',
       },
     },
   },

@@ -1,16 +1,19 @@
 ---
-import IconCTA from '@components/IconCTA.astro';
-import Hero from '@components/Hero.astro';
-import Showcase from '@components/Showcase.astro';
-import Section from '@components/Section.astro';
-import ImageCTA from '@components/ImageCTA.astro';
-import Quote from '@components/Quote.astro';
+import IconCTA from '@components/cta/IconCTA.astro';
+import Hero from '@components/featured/Hero.astro';
+import Showcase from '@components/featured/Showcase.astro';
+import Section from '@components/utilities/Section.astro';
+import ImageCTA from '@components/cta/ImageCTA.astro';
+import Quote from '@components/utilities/Quote.astro';
 
 import { getEntry } from 'astro:content';
+import CTA from '@components/cta/CTA.astro';
 const entry = await getEntry('pages', '/');
 ---
 
-<div class="flexflex-col grid grid-cols-main gap-y-12 md:gap-y-24">
+<div
+  class="flexflex-col grid grid-cols-mobile md:grid-cols-main gap-y-12 md:gap-y-24"
+>
   {
     entry.data.hero && (
       <Hero
@@ -75,6 +78,29 @@ const entry = await getEntry('pages', '/');
       </Section>
     )
   }
+
+  {
+    entry.data.cta && (
+      <Section type="section" width="small" spacing="large">
+        <CTA
+          heading={entry.data.cta.heading}
+          byline={entry.data.cta.byline}
+          layout={entry.data.cta.layout}
+          shadow={entry.data.cta.shadow}
+          imgContain={entry.data.cta.imgContain}
+          img={entry.data.cta.img}
+          imgAlt={entry.data.cta.imgAlt}
+          linkStyle={entry.data.cta.linkStyle}
+          linkTarget={entry.data.cta.linkTarget}
+          linkText={entry.data.cta.linkText}
+        />
+      </Section>
+    )
+  }
+
+  <Section width="small" spacing="large">
+    <CTA />
+  </Section>
 
   <Section width="small" spacing="large">
     <IconCTA border={true} layout="horizontal" />
