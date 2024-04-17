@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { getCollection, type CollectionEntry, getEntry } from 'astro:content';
+import { cva } from 'class-variance-authority';
+import Link from '@components/Link.astro';
+import WorkGrid from './WorkGrid.astro';
+
+const { heading = 'Services', layout = 'default' } = Astro.props;
+
+const styles = cva(
+  'text-3xl font-seif font-black text-center bg-base-800 text-primary-300 p-3 md:p-6',
+  {
+    variants: {
+      layout: {
+        default: ['row-span-1'],
+        fullHeight: ['row-span-2'],
+      },
+    },
+  }
+);
+
+const imageStyles = cva('w-full object-cover h-36 border-b-current border-b', {
+  variants: {
+    image: {
+      true: ['block'],
+      false: ['hidden'],
+    },
+  },
+});
+---
+
+<div
+  class="overflow-hidden not-prose shadow-xl mx-auto rounded-md text-base-800"
+>
+  <h2 class={styles({ layout })}>{heading}</h2>
+
+  <div class="grid grid-col-1 md:grid-cols-3 gap-4 md:gap-8 p-4 md:p-8">
+    <WorkGrid />
+  </div>
+</div>

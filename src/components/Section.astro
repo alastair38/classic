@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { cva, type VariantProps } from 'class-variance-authority';
+
+const {
+  type = 'section',
+  width = 'full',
+  spacing = 'default',
+  layout = 'default',
+  ...rest
+} = Astro.props;
+
+const TagName = type || 'div';
+
+const section = cva('mx-auto not-prose col-start-2', {
+  variants: {
+    width: {
+      full: ['w-full'],
+      medium: ['w-full md:w-4/5'],
+      small: ['w-full md:w-2/3'],
+    },
+    spacing: {
+      default: [''],
+      large: ['my-12 md:my-24'],
+    },
+    layout: {
+      default: ['space-y-6'],
+      grid: ['grid grid-cols-1 md:grid-cols-3 gap-12'],
+    },
+    type: {},
+  },
+});
+---
+
+<TagName {...rest} class={section({ width, spacing, layout })}>
+  <slot />
+</TagName>

@@ -1,0 +1,67 @@
+---
+const {
+  pageData,
+  pageTitle,
+  settings,
+  socialImage,
+  url = Astro.url,
+} = Astro.props.frontmatter || Astro.props;
+---
+
+<title>
+  {
+    (pageTitle && pageTitle + ' - ') ||
+      (pageData?.title && pageData?.title + ' - ')
+  }
+  {settings.title}
+</title>
+<meta name="description" content={pageData?.description || settings.byline} />
+<!-- <link rel="sitemap" href="/sitemap-index.xml" /> uncomment this after checking build creates sitemap -->
+<link rel="canonical" href={url} />
+
+<!-- Open Graph -->
+<meta property="og:site_name" content=`${settings.title}` />
+<meta property="og:title" content={pageData?.title || pageTitle} />
+<meta
+  property="og:description"
+  content={pageData?.description || settings.byline}
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content={url} />
+<meta
+  property="og:image"
+  content={socialImage?.src || settings.socialImage.image.src}
+/>
+<meta
+  property="og:image:url"
+  content={socialImage?.src || settings.socialImage.image.src}
+/>
+<meta
+  property="og:image:secure_url"
+  content={socialImage?.src || settings.socialImage.image.src}
+/>
+<meta property="og:image:type" content="image/webp" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="600" />
+<meta
+  property="og:image:alt"
+  content={pageData.featuredImg?.alt || settings.socialImage.alt}
+/>
+
+<!-- Twitter -->
+<meta name="twitter:title" content={pageData?.title || pageTitle} />
+<meta
+  name="twitter:description"
+  content={pageData?.description || settings.byline}
+/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta
+  name="twitter:image"
+  content={socialImage?.src || settings.socialImage.image.src}
+/>
+<meta
+  name="twitter:image:alt"
+  content={pageData.featuredImg?.alt ||
+    (!socialImage?.src && settings.socialImage.alt)}
+/>
+<meta name="twitter:domain" content={Astro.url.origin} />

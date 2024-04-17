@@ -1,0 +1,13 @@
+title: North Walk
+byline: Actualize skillsets to achieve the best targets
+logoSVG: logo
+socialImage:
+  image: ./social.jpg
+  alt: social media image
+socialLinks:
+  - title: Twitter
+    url: 'https://twitter.com/myname'
+    icon: twitter
+  - title: Instagram
+    url: 'https://instagram.com/myname'
+    icon: instagram

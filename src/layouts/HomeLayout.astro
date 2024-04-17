@@ -1,0 +1,86 @@
+---
+import IconCTA from '@components/IconCTA.astro';
+import Hero from '@components/Hero.astro';
+import Showcase from '@components/Showcase.astro';
+import Section from '@components/Section.astro';
+import ImageCTA from '@components/ImageCTA.astro';
+import Quote from '@components/Quote.astro';
+
+import { getEntry } from 'astro:content';
+const entry = await getEntry('pages', '/');
+---
+
+<div class="flexflex-col grid grid-cols-main gap-y-12 md:gap-y-24">
+  {
+    entry.data.hero && (
+      <Hero
+        img={entry.data.hero.img}
+        imgAlt={entry.data.hero.imgAlt}
+        shadow={entry.data.hero.shadow}
+        background={entry.data.hero.background}
+        textPosition={entry.data.hero.textPosition}
+        imgSize={entry.data.hero.imgSize}
+        textStyle={entry.data.hero.textStyle}
+        linkStyle={entry.data.hero.linkStyle}
+        linkTarget={entry.data.hero.linkTarget}
+        fullWidth={entry.data.hero.fullWidth}
+        duotone={entry.data.hero.duotone}
+      />
+    )
+  }
+
+  <!-- {
+    entry.data.hero && (
+      <Hero
+        textOnly={entry.data.hero.textOnly}
+        showLogo={entry.data.hero.showLogo}
+        textStyle={entry.data.hero.textStyle}
+        linkStyle={entry.data.hero.linkStyle}
+        linkTarget={entry.data.hero.linkTarget}
+      />
+    )
+  } -->
+
+  {
+    entry.data.quote && (
+      <Quote
+        style={entry.data.quote.style}
+        weight={entry.data.quote.weight}
+        text={entry.data.quote.text}
+        citation={entry.data.quote.citation}
+        iconColor={entry.data.quote.iconColor}
+      />
+    )
+  }
+
+  {
+    entry.data.imageCTA && (
+      <Section
+        type="section"
+        width={entry.data.imageCTA.length > 2 ? 'full' : 'medium'}
+        layout="grid"
+      >
+        {entry.data.imageCTA.map(cta => (
+          <ImageCTA
+            title={cta.title}
+            byline={cta.byline}
+            layout={cta.layout}
+            shape={cta.shape}
+            border={cta.border}
+            image={cta.image}
+            background={cta.background}
+            link={cta.link}
+          />
+        ))}
+      </Section>
+    )
+  }
+
+  <Section width="small" spacing="large">
+    <IconCTA border={true} layout="horizontal" />
+  </Section>
+
+  <Section width="medium">
+    <Showcase layout="fullHeight" image={false} showButton={true} />
+  </Section>
+</div>

@@ -1,0 +1,189 @@
+---
+import { Image } from 'astro:assets';
+import { cva } from 'class-variance-authority';
+import Link from './Link.astro';
+import { getEntry } from 'astro:content';
+import Separator from './Separator.astro';
+import { Icon } from 'astro-icon/components';
+
+const siteSettings = await getEntry('settings', 'site');
+
+const {
+  heading = siteSettings.data.title || 'Heading',
+  byline = siteSettings.data.byline || 'Byline',
+  background = 'default',
+  img,
+  imgAlt,
+  fullWidth = false,
+  duotone = false,
+  textOnly = false,
+  showLogo = false,
+  linkText = 'What do we do?',
+  linkStyle = 'primary',
+  linkTarget = '#more',
+  textPosition = 'center',
+  imgSize = 'full',
+  shadow = false,
+  textStyle = 'default',
+} = Astro.props;
+
+const styles = cva('grid grid-cols-1 md:grid-cols-4 w-full overflow-hidden', {
+  variants: {
+    background: {
+      default: [''],
+      primary: ['bg-primary-300'],
+      secondary: ['bg-secondary-200'],
+      dark: ['bg-base-700 text-light'],
+    },
+    shadow: {
+      true: ['shadow-2xl'],
+      false: [''],
+    },
+    fullWidth: {
+      true: ['col-span-full -mt-3 md:-mt-12 bg-hero-pattern'],
+      false: ['col-start-2 rounded-md'],
+    },
+  },
+});
+
+const imgWrapperStyles = cva('flex row-start-1 items-center justify-center', {
+  variants: {
+    imgSize: {
+      full: ['col-span-full'],
+      contain: [''],
+    },
+    textPosition: {
+      center: ['col-span-full'],
+      right: ['col-start-1 col-span-1 md:col-span-2 p-2 md:p-0'],
+      left: ['col-start-4 md:col-start-3 col-span-1 md:col-span-2 p-2 md:p-0'],
+    },
+    fullWidth: {
+      true: ['md:h-[80vh]'],
+      false: ['md:h-[70vh]'],
+    },
+  },
+});
+
+const imgStyles = cva('w-full', {
+  variants: {
+    imgSize: {
+      full: ['object-cover h-full'],
+      contain: ['object-contain h-4/5 border-dashed p-0 md:p-12'],
+      fill: ['object-cover h-full'],
+    },
+    textPosition: {
+      center: [''],
+      right: ['md:border-r md:border-base-300'],
+      left: ['md:border-l md:border-base-300'],
+    },
+    duotone: {
+      false: [''],
+      true: ['mix-blend-luminosity'],
+    },
+  },
+});
+
+const contentWrapperStyles = cva(
+  'flex flex-col justify-center p-4 md:p-12 isolate',
+  {
+    variants: {
+      textPosition: {
+        center: ['col-span-full row-start-1 items-center'],
+        right: [
+          'col-start-2 col-span-3 md:col-start-3 md:col-span-2 row-start-1',
+        ],
+        left: ['row-start-1 col-span-3 md:col-span-2 col-start-1'],
+      },
+      textOnly: {
+        true: [],
+        false: [],
+      },
+      textStyle: {
+        default: ['gap-3'],
+        bold: ['gap-6'],
+        poster: ['gap-3 row-start-1'],
+        elegant: ['gap-0 font-serif'],
+      },
+      background: {
+        default: ['bg-light/40'],
+        primary: ['bg-light/50'],
+        secondary: ['bg-light/50'],
+        dark: ['bg-dark/20'],
+      },
+    },
+    compoundVariants: [
+      {
+        textPosition: 'center',
+        textOnly: false,
+        class: '',
+      },
+    ],
+  }
+);
+
+const headingStyles = cva('text-xl leading-none dark:text-light', {
+  variants: {
+    textStyle: {
+      default: ['md:-ml-1 md:text-6xl font-black'],
+      bold: [
+        'drop-shadow-[5px_6px_0px_#FDE047] rotate-1 px-2 md:text-8xl font-black',
+      ],
+      poster: [
+        'px-2 bg-secondary-500/80 md:text-8xl font-mono w-fit shadow[6px_6px_0px] shadow-dark/80',
+      ],
+      elegant: ['md:text-4xl text-secondary-500'],
+    },
+  },
+});
+
+const bylineStyles = cva('', {
+  variants: {
+    textStyle: {
+      default: ['pb-3'],
+      bold: ['bg-primary-300 shadow-lg px-2'],
+      poster: [
+        'bg-primary-400/80 px-2 py-1 w-fit font-mono text-lg shadow[6px_6px_0px]',
+      ],
+      elegant: ['text-xl md:text-4xl pb-3 max-w-[20ch]'],
+    },
+  },
+});
+---
+
+<section class={styles({ shadow, background, fullWidth })}>
+  {
+    !textOnly && (
+      <div class={imgWrapperStyles({ imgSize, textPosition, fullWidth })}>
+        <Image
+          class={imgStyles({ imgSize, textPosition, duotone })}
+          src={img}
+          alt={imgAlt}
+          width={img.width}
+          height={img.height}
+        />
+      </div>
+    )
+  }
+
+  <div
+    class={contentWrapperStyles({
+      textPosition,
+      textStyle,
+      textOnly,
+      background,
+    })}
+  >
+    {
+      showLogo && (
+        <span class="mx-auto border-4 rounded-full p-6">
+          <Icon name={siteSettings.data.logoSVG} class="mx-auto w-12 h-12" />
+        </span>
+      )
+    }
+    <h1 class={headingStyles({ textStyle })}>{heading}</h1>
+    <p class={bylineStyles({ textStyle })}>
+      {byline}
+    </p>
+    <Link intent={linkStyle} size="small" href={linkTarget}>{linkText}</Link>
+  </div>
+</section>

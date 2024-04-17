@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import { cva } from 'class-variance-authority';
+
+const { name = 'two', layout = 'vertical' } = Astro.props;
+
+const entry = await getEntry('services', `${name}/index`);
+
+const styles = cva('overflow-hidden grid bg-light border h-full rounded-md', {
+  variants: {
+    layout: {
+      vertical: ['grid-cols-1'],
+      horizontal: ['grid-cols-2'],
+    },
+  },
+});
+---
+
+<div class={styles({ layout })}>
+  {
+    entry && entry.data.image && (
+      <Image
+        class="aspect-video object-cover"
+        src={entry.data.image}
+        alt={entry.data.alt || ''}
+        width={entry.data.image.width}
+        height={entry.data.image.height}
+      />
+    )
+  }
+  <div class="p-3 flex flex-col justify-center p-6 gap-3">
+    <h2 class="font-black text-xl">{entry && entry.data.title}</h2>
+    <p>{entry && entry.data.description}</p>
+  </div>
+</div>

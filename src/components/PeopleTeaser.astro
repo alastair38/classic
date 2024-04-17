@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { getCollection, type CollectionEntry, getEntry } from 'astro:content';
+import { cva } from 'class-variance-authority';
+import Link from '@components/Link.astro';
+
+const peopleEntries: CollectionEntry<'people'>[] =
+  await getCollection('people');
+
+// sort the returned navigationEntries array by the order value so it's not just file order
+const sortedPeople = peopleEntries.sort(function (a, b) {
+  return a.data.order - b.data.order;
+});
+
+const { heading = 'People', layout = 'default' } = Astro.props;
+
+const styles = cva('overflow-hidden shadow-md h-full rounded-md', {
+  variants: {
+    layout: {
+      default: ['row-span-1'],
+      fullHeight: ['row-span-2'],
+    },
+  },
+});
+---
+
+<div class="flex flex-col md:flex-row items-center justify-center mx-auto">
+  <div class="flex items-center">
+    {
+      sortedPeople
+        .slice(0, 3)
+        .map(
+          (entry, i) =>
+            entry.data.photo && (
+              <Image
+                class={`object-cover relative object-center shadow-lg -left-${i * 4} border border-4 border-light h-16 w-16 md:h-24 md:w-24 rounded-full`}
+                src={entry.data.photo.image}
+                alt={entry.data.photo.alt || ''}
+                width={entry.data.photo.image?.width}
+                height={entry.data.photo.image?.height}
+              />
+            )
+        )
+    }
+  </div>
+  <Link intent="ghost" href="/team">Meet the team</Link>
+</div>

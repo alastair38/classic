@@ -1,0 +1,14 @@
+name: Joe Young
+biography: One might have thought oneself in the worst part of Upper Thames Street, near London Bridge. I walked on, following the upper decks towards the stern. Stretching on either side were two wide streets, or rather boulevards, filled with a compact crowd; thus walking, I came to the centre of the steam-ship between the paddles, united by a double set of bridges.
+title: Jobs Worth
+photo:
+  image: ./joe.jpeg
+  alt: It's Joe Below
+socialLinks:
+  - title: Twitter
+    url: 'https://twitter.com/joeblow'
+    icon: twitter
+  - title: Instagram
+    url: 'https://instagram.com/joeblow'
+    icon: instagram
+order: 3

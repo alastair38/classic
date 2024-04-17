@@ -1,0 +1,44 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const {
+  siteTitle = 'Site Title',
+  logoIcon = 'logo',
+  socialLinks = [],
+} = Astro.props;
+---
+
+<footer
+  class="flex flex-col gap-6 text-light justify-center items-center px-6 py-8 bg-base-900 dark:bg-base-950 mt-auto"
+>
+  <a
+    title="North Walk"
+    class="flex h-fit focus-visible:outline outline-1 hover:opacity-85 outline-offset-4"
+    href="/"
+  >
+    <span class="sronly">{siteTitle}</span>
+  </a>
+  {
+    socialLinks && (
+      <div>
+        <span class="sr-only">Follow us</span>
+        <ul class="flex gap-4 items-center">
+          {socialLinks.map(
+            (link: { url: string; icon: string; title: string }) => (
+              <li>
+                <a
+                  title={link.title}
+                  class="flex items-center gap-1"
+                  href={link.url}
+                >
+                  <Icon name={link.icon} class="w-6 h-6" />
+                  <span class="sr-only">{link.title}</span>
+                </a>
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+    )
+  }
+</footer>

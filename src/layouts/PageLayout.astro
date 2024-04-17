@@ -1,0 +1,20 @@
+---
+import IconCTA from '@components/IconCTA.astro';
+import PageHeader from '@components/PageHeader.astro';
+const { frontmatter } = Astro.props;
+---
+
+<div
+  class="flex flex-col md:flex-row w-full md:w-3/4 gap-6 md:gap-12 mx-auto justify-between"
+>
+  <PageHeader
+    title={frontmatter.title}
+    description={frontmatter.description}
+    style="pattern"
+  />
+  <div
+    class="prose dark:prose-invert prose-sm md:prose-base prose-h2:text-lg md:prose-h2:text-2xl prose-ol:list-roman mx-auto max-w-[75ch]"
+  >
+    <slot />
+  </div>
+</div>

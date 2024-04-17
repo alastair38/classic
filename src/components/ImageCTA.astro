@@ -1,0 +1,78 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import { cva } from 'class-variance-authority';
+
+import One from '@assets/images/cta/One.png';
+import Two from '@assets/images/cta/Two.png';
+import Three from '@assets/images/cta/Three.png';
+import Four from '@assets/images/cta/Four.png';
+import Five from '@assets/images/cta/Five.png';
+import Link from './Link.astro';
+
+let imgSrc: ImageMetadata = One;
+
+const {
+  title = 'Modular',
+  byline = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, at dolorum? Perspiciatis eaque tempore a rem ullam sint provident omnis officiis quae eveniet?',
+  layout = 'horizontal',
+  border = true,
+  image = 'One',
+  shape = 'square',
+  background = 'defautl',
+  link = '/',
+} = Astro.props;
+
+if (image === 'One') imgSrc = One;
+if (image === 'Two') imgSrc = Two;
+if (image === 'Four') imgSrc = Four;
+if (image === 'Three') imgSrc = Three;
+if (image === 'Five') imgSrc = Five;
+
+const styles = cva(
+  ' mx-auto grid border border-base-200 p8 rounded-md overflow-hidden shadow-xl',
+  {
+    variants: {
+      layout: {
+        horizontal: ['grid-cols-2 gap-1 max-w-screen-md'],
+        vertical: ['grid-cols-1 gap-6 max-w-lg'],
+      },
+      border: {
+        true: [''],
+        false: [''],
+      },
+      background: {
+        default: [''],
+        primary: ['bg-primary-300'],
+        secondary: ['bg-secondary-200'],
+        dark: ['bg-base-800 text-light'],
+      },
+    },
+  }
+);
+
+const imgStyle = cva('object-contain w-full', {
+  variants: {
+    shape: {
+      rounded: ['aspect-square rounded-full'],
+      square: ['drop-shadow-2xl'],
+    },
+    layout: {
+      horizontal: ['h-full p-6'],
+      vertical: ['p-6 h-56 place-self-end'],
+    },
+    background: {
+      dark: [''],
+    },
+  },
+});
+---
+
+<div class={styles({ layout, border, background })}>
+  <div class="flex flex-col p-6 justify-center gap-6">
+    <h2 class="font-black text-xl">{title}</h2>
+    <p>{byline}</p>
+    <Link intent="ghost" size="prose" href={link}>Learn more</Link>
+  </div>
+  <Image class={imgStyle({ shape, layout, background })} src={imgSrc} alt="" />
+</div>

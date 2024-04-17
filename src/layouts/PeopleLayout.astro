@@ -1,0 +1,17 @@
+---
+import PageHeader from '@components/PageHeader.astro';
+import People from '@components/People.astro';
+const { frontmatter } = Astro.props;
+---
+
+<div
+  class="grid grid-cols-1 md:grid-cols-3 col-start-2 gap-4 md:gap-8 px-3 md:px-12"
+>
+  <PageHeader
+    title={frontmatter.title}
+    description={frontmatter.description}
+    style="pattern"
+    sticky={false}
+  />
+  <People />
+</div>

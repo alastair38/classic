@@ -1,0 +1,10 @@
+title: Installations
+description: Covering the full range of installation work
+icon: lightbulb-line
+services:
+  - new builds
+  - fuse boxes
+  - heating and ventilation
+image: ./image.jpg
+alt: 'Something here'
+featured: true

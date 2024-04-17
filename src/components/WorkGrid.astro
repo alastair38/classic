@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { getCollection, type CollectionEntry, getEntry } from 'astro:content';
+import { cva } from 'class-variance-authority';
+import Link from './Link.astro';
+
+const servicesEntries: CollectionEntry<'services'>[] = await getCollection(
+  'services',
+  ({ data }) => {
+    return data.featured === true;
+  }
+);
+
+const {
+  showImage = false,
+  showButton = true,
+  buttonText = 'Find out more',
+  buttonLink = '/',
+} = Astro.props;
+
+const imageStyles = cva('w-full object-cover h-36 border-b-current border-b', {
+  variants: {
+    showImage: {
+      true: ['block'],
+      false: ['hidden'],
+    },
+  },
+});
+---
+
+{
+  servicesEntries.map(entry => (
+    <div class="overflow-hidden border border-current h-full rounded-md">
+      {showImage && entry.data.image && (
+        <Image
+          class={imageStyles({ showImage })}
+          src={entry.data.image}
+          alt={entry.data.alt || ''}
+          width={entry.data.image.width}
+          height={entry.data.image.height}
+        />
+      )}
+
+      <div class="space-y-3 p-3">
+        <h2 class="font-black text-xl flex items-center gap-1 justify-between">
+          {entry.data.title}
+          {entry.data.icon && (
+            <Icon aria-hidden="true" class="w-6 h-6" name={entry.data.icon} />
+          )}
+        </h2>
+        <hr aria-hidden="true" class="border-current" />
+        <p>{entry.data.description}</p>
+        {entry.data.services && (
+          <ul class="grid list-circle list-inside">
+            {entry.data.services &&
+              entry.data.services.map(service => <li>{service}</li>)}
+          </ul>
+        )}
+      </div>
+    </div>
+  ))
+}
+{
+  showButton && (
+    <div class="col-span-full flex justify-center">
+      <Link href={buttonLink} intent="primary">
+        {buttonText}
+      </Link>
+    </div>
+  )
+}

@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { getCollection, type CollectionEntry, getEntry } from 'astro:content';
+import { cva } from 'class-variance-authority';
+import Link from '@components/Link.astro';
+
+const peopleEntries: CollectionEntry<'people'>[] =
+  await getCollection('people');
+
+// sort the returned navigationEntries array by the order value so it's not just file order
+const sortedPeople = peopleEntries.sort(function (a, b) {
+  return a.data.order - b.data.order;
+});
+
+const { heading = 'People', layout = 'default' } = Astro.props;
+
+const styles = cva('overflow-hidden shadow-md h-full rounded-md', {
+  variants: {
+    layout: {
+      default: ['row-span-1'],
+      fullHeight: ['row-span-2'],
+    },
+  },
+});
+---
+
+{
+  sortedPeople.map(entry => (
+    <div class="overflow-hidden shadow-md rounded-md">
+      {entry.data.photo && (
+        <Image
+          class="w-full object-cover object-center h-64"
+          src={entry.data.photo.image}
+          alt={entry.data.photo.alt || ''}
+          width={entry.data.photo.image?.width}
+          height={entry.data.photo.image?.height}
+        />
+      )}
+      <div class="space-y-3 p-3 md:p-6">
+        <h3 class="font-black text-xl">{entry.data.name}</h3>
+        <hr aria-hidden="true" class="border-base-300" />
+        <p class="font-bold">{entry.data.title}</p>
+        <p class="sronly">{entry.data.biography}</p>
+        {entry.data.socialLinks && (
+          <ul
+            aria-label={`Social media links for ${entry.data.name}`}
+            class="flex items-center gap-2"
+          >
+            {entry.data.socialLinks &&
+              entry.data.socialLinks.map(link => (
+                <li>
+                  <a
+                    class="flex bg-base-800 text-primary-300 hover:outline focus-within:outline outline-base-800 outline-2 outline-offset-2 w-8 h-8 justify-center rounded-full items-center gap-1"
+                    href={link.url}
+                  >
+                    <Icon class="w-3 h-3" name={link.icon} />
+                    <span class="sr-only">{link.title}</span>
+                  </a>
+                </li>
+              ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  ))
+}

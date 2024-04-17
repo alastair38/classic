@@ -1,0 +1,64 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { HTMLAttributes } from 'astro/types';
+import { cva, type VariantProps } from 'class-variance-authority';
+
+export interface Props extends HTMLAttributes<'a'>, VariantProps<typeof link> {}
+
+const { href, intent = 'primary', size = 'medium', ...rest } = Astro.props;
+
+const link = cva(
+  'flex flex-wrap gap-1 items-center transition-colors duration-200 group',
+  {
+    variants: {
+      intent: {
+        primary: [
+          'bg-primary-300 text-dark focus:no-outline hover:outline outline-2 outline-offset-2 outline-primary-300 transition-colors duration-200 focus-visible:outline rounded-full no-underline w-fit py-1 px-3 justify-self-center',
+        ],
+        ghost: [
+          'w-fit underline hover:no-underline focus-visible:no-underline text-current outline-none',
+        ],
+        outline: [
+          'focus:no-outline hover:outline border outline-2 outline-offset-2 outline-current transition-colors duration-200 focus-visible:outline rounded-full no-underline w-fit py-1 px-3 justify-self-center',
+        ],
+        retro: [
+          'border-dark',
+          'bg-light',
+          'text-gray-80',
+          'border',
+          'hover:bg-contrast600',
+          'w-fit',
+          'mt-3',
+          'px-3 py-1',
+          'shadow-[2px_2px_0px]',
+          'font-mono',
+          'hover:scale-95',
+          'hover:shadow-transparent',
+          'transition',
+          'duration-100',
+        ],
+      },
+      size: {
+        small: ['text-sm'],
+        medium: ['text-base', 'py-1', 'px-3'],
+        prose: ['text-base'],
+      },
+      active: {
+        true: [''],
+      },
+    },
+  }
+);
+---
+
+<a href={href} {...rest} class={link({ intent, size })}>
+  <slot />
+  {
+    intent === 'ghost' && (
+      <Icon
+        class="group-hover:translate-x-2 group-focus-visible:translate-x-2 ml-1 transition duration-200"
+        name="arrow-right"
+      />
+    )
+  }
+</a>

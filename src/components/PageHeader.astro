@@ -1,0 +1,42 @@
+---
+import { cva, type VariantProps } from 'class-variance-authority';
+
+const {
+  title = 'Page title',
+  description = 'Page description',
+  style = 'default',
+  sticky = true,
+  ...rest
+} = Astro.props;
+
+const header = cva(
+  'top-12 flex flex-col gap-1 md:gap-3 bg-cover overflow-hidden',
+  {
+    variants: {
+      style: {
+        default: [''],
+        border: [
+          'md:border border-base-300 md:rounded-md border-b pb-4 md:p-4',
+        ],
+        background: ['bg-primary-300 p-4 rounded-md'],
+        pattern: ['bg-hero-pattern border border-base-300 rounded-md p-4'],
+      },
+      sticky: {
+        true: ['md:sticky md:w-96 h-48 md:h-96 items-end justify-end'],
+        false: [
+          'justify-end items-center bg-primary300 md:items-end md:justify-center',
+        ],
+      },
+    },
+  }
+);
+---
+
+<header class={header({ style, sticky })} transition:name="pageHeader">
+  <!-- {image && <Image class="absolute inset-0" src={image} alt="" />} -->
+
+  <h1 class="text-3xl font-black text-base-900">
+    {title}.
+  </h1>
+  {!sticky && <p class="">{description}</p>}
+</header>

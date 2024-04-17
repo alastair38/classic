@@ -1,0 +1,22 @@
+---
+import PageHeader from '@components/PageHeader.astro';
+import People from '@components/People.astro';
+import Section from '@components/Section.astro';
+import Showcase from '@components/Showcase.astro';
+import WorkGrid from '@components/WorkGrid.astro';
+const { frontmatter } = Astro.props;
+---
+
+<div class="w-3/4 mx-auto space-y-12">
+  <div
+    class="prose col-span-full dark:prose-invert prose-sm md:prose-base prose-h2:text-lg md:prose-h2:text-2xl prose-ol:list-roman mx-auto max-w-[75ch]"
+  >
+    <h1 class="border-b border-base-100">{frontmatter.title}</h1>
+
+    <slot />
+  </div>
+
+  <Section layout="grid">
+    <WorkGrid buttonText="Contact us" showImage={false} buttonLink="/about" />
+  </Section>
+</div>

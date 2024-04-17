@@ -1,0 +1,52 @@
+---
+layout: '@layouts/HomeLayout.astro'
+title: Home
+featuredImg:
+  image: ./featured.jpg
+  alt: Image description
+description: Find out what makes Astro awesome!
+slug: '/'
+
+# home page components
+
+hero:
+  img: ./abstract.jpg
+  imgAlt: Some descripiton
+  shadow: true
+  fullWidth: true
+  duotone: false
+  textOnly: true
+  showLogo: true
+  background: default
+  textPosition: center
+  imgSize: full
+  linkStyle: primary
+  linkTarget: /services
+
+imageCTA:
+  - title: Hello
+    byline: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    image: Two
+    background: dark
+    layout: vertical
+    link: '/work'
+  - title: What?
+    byline: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    image: Four
+    background: primary
+    layout: vertical
+    link: '/work'
+  - title: Goodbye
+    byline: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    image: Three
+    background: default
+    layout: vertical
+    link: '/about'
+
+quote:
+  style: upper
+  weight: heavy
+  text: Defining the underlying principles that drive decisions and strategy
+  citation: Bob Brewster, CEO
+  iconColor: secondary
+---

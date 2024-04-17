@@ -1,0 +1,97 @@
+---
+import { Icon } from 'astro-icon/components';
+import Link from './Link.astro';
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+import { cva } from 'class-variance-authority';
+
+const {
+  siteTitle = 'Site Title',
+  logoIcon = 'logo',
+  style = 'light',
+  spacing = 'default',
+  layout = 'default',
+  ...rest
+} = Astro.props;
+
+const header = cva('p-2 md:p-6 dark:bg-base-950 relative', {
+  variants: {
+    style: {
+      light: ['border-b border-b-base-100'],
+      dark: ['bg-base-900 text-light'],
+      small: ['w-2/3'],
+    },
+    spacing: {
+      default: [''],
+      large: ['my-24'],
+    },
+    layout: {
+      default: [''],
+      grid: ['grid grid-flow-col gap-12'],
+    },
+  },
+});
+
+const navigationEntries: CollectionEntry<'navigation'>[] =
+  await getCollection('navigation');
+
+// sort the returned navigationEntries array by the order value so it's not just file order
+const sortedNav = navigationEntries.sort(function (a, b) {
+  return a.data.order - b.data.order;
+});
+---
+
+<header class={header({ style })}>
+  <nav
+    aria-label="Main navigation"
+    class="flex justify-between max-w-screen-xl mx-auto"
+  >
+    <a class="flex items-center gap-3 textlight" href="/">
+      <span
+        class="bg-dark flex md:w-16 md:h-16 h-8 w-8 items-center justify-center p-2 md:p-3 rounded-full"
+      >
+        <Icon
+          aria-hidden="true"
+          name={logoIcon}
+          class="md:w-20 md:h-20 w-6 h-6 text-primary-300"
+        />
+      </span>
+      <span class="font-black leading-none texl-xl md:text-3xl"
+        >{siteTitle}</span
+      >
+    </a>
+    <ul
+      id="main-menu"
+      class="gridgrid-flow-colauto-cols-fr hidden md:flex items-center capitalize gap-3 md:gap-6"
+    >
+      {
+        sortedNav.map(entry =>
+          Astro.url.pathname === entry.data.link ? (
+            <li class="text-primary-300 outline outline-2 outline-offset-2 rounded-full">
+              <Link
+                aria-current="page"
+                href={`${Astro.url.origin}${entry.data.link}`}
+                intent={'primary'}
+                size={'small'}
+                active={true}
+              >
+                {entry.data.title}
+              </Link>
+            </li>
+          ) : (
+            <li class="text-light">
+              <Link
+                href={`${Astro.url.origin}${entry.data.link}`}
+                intent={'primary'}
+                size={'small'}
+              >
+                {entry.data.title}
+              </Link>
+            </li>
+          )
+        )
+      }
+    </ul>
+  </nav>
+</header>

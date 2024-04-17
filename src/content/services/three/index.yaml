@@ -1,0 +1,10 @@
+title: Repairs
+description: From fixing appliances to full house rewires
+icon: pliers
+services:
+  - rewiring
+  - appliance repairs
+  - 24hr emergency callouts
+image: ./image.jpg
+alt: 'Something else here'
+featured: true

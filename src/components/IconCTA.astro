@@ -1,0 +1,64 @@
+---
+import { Icon } from 'astro-icon/components';
+import { cva } from 'class-variance-authority';
+import Link from './Link.astro';
+
+const {
+  title = 'Modular. Connected. Scaleable.',
+  byline = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, at dolorum? Perspiciatis eaque tempore a rem ullam sint provident omnis officiis quae eveniet?',
+  layout = 'vertical',
+  shape = 'square',
+  border = true,
+  link = '/',
+  icons = {
+    one: 'layers-line',
+    two: 'node-group-line',
+    three: 'launchpad-line',
+  },
+} = Astro.props;
+
+const styles = cva('overflow-hidden mx-auto grid gap-6', {
+  variants: {
+    layout: {
+      horizontal: ['grid-cols-3 md:grid-cols-6'],
+      vertical: ['grid-cols-3'],
+    },
+    border: {
+      true: ['border border-base-200 p-6 md:p-12 rounded-md'],
+      false: [''],
+    },
+  },
+});
+
+const shapeStyle = cva('aspect-square w-full p-2 md:p-8 h-auto my-auto', {
+  variants: {
+    shape: {
+      rounded: ['rounded-full'],
+      square: ['rounded-md '],
+    },
+  },
+});
+---
+
+<div class={styles({ border, layout })}>
+  <div
+    class="z-10 col-span-3 flex flex-col justify-between itemscenter gap-2 bg-primary-3/90"
+  >
+    <h2 class="font-black text-xl">{title}</h2>
+    <p>{byline}</p>
+    <Link intent="ghost" size="prose" href={link}>Learn more </Link>
+  </div>
+  <Icon
+    class=`${shapeStyle({ shape })} bg-base-800/60 text-primary-400`
+    name={icons.one}
+  />
+  <Icon
+    class=`${shapeStyle({ shape })} bg-base-800/70 text-primary-400`
+    name={icons.two}
+  />
+
+  <Icon
+    class=`${shapeStyle({ shape })} bg-base-800/80 text-primary-400`
+    name={icons.three}
+  />
+</div>

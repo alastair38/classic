@@ -1,0 +1,84 @@
+---
+import Footer from '@components/Footer.astro';
+import Header from '@components/Header.astro';
+import Seo from '@components/Seo.astro';
+import { getImage } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import { ViewTransitions } from 'astro:transitions';
+
+const { pageData } = Astro.props.frontmatter || Astro.props;
+const siteSettings = await getEntry('settings', 'site');
+
+import { cva } from 'class-variance-authority';
+
+const { layout = 'default', ...rest } = Astro.props;
+
+const baseLayout = cva(
+  'px-3 py-3 md:px-12 md:pt-12 md:pb-24 max-w-screen-2xl',
+  {
+    variants: {
+      layout: {
+        default: ['space-y-6'],
+        grid: ['grid grid-cols-1 md:grid-cols-3 gap-12'],
+      },
+    },
+  }
+);
+
+const socialImage = pageData.featuredImg
+  ? await getImage({
+      src: pageData.featuredImg?.image as ImageMetadata,
+      height: 600,
+      width: 1200,
+      format: 'webp',
+    })
+  : await getImage({
+      src: siteSettings.data.socialImage?.image as ImageMetadata,
+      height: 600,
+      width: 1200,
+      format: 'webp',
+    });
+---
+
+<!doctype html>
+<html class="scroll-smooth scroll-pt-6" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#332020">
+		<meta name="msapplication-TileColor" content="#2b5797">
+		<meta name="theme-color" content="#ffffff"> -->
+
+    <!-- SEO -->
+    <Seo
+      pageData={pageData}
+      settings={siteSettings.data}
+      socialImage={socialImage}
+    />
+
+    <ViewTransitions />
+  </head>
+
+  <body class="min-h-[101vh] flex flex-col justify-between dark:bg-base-900">
+    <Header
+      siteTitle={siteSettings.data.title}
+      logoIcon={siteSettings.data.logoSVG}
+    />
+
+    <main class="py-3 md:pt-12 md:pb-24 max-w-screen-2xl">
+      <slot />
+    </main>
+
+    <Footer
+      siteTitle={siteSettings.data.title}
+      socialLinks={siteSettings.data.socialLinks}
+    />
+  </body>
+</html>

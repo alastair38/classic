@@ -1,0 +1,11 @@
+title: Testing
+description: Keeping your electrical systems compliant
+icon: arrow-join
+services:
+  - PAT (Electrical Equipment) Testing
+  - EICR (Fixed Wire Testing)
+  - 5 year electrical testing
+image: ./image.jpg
+alt: 'Something or other here'
+featured: true
+# set featured to true to display this item in the Showcase component
