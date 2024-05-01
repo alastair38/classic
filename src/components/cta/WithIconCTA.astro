@@ -1,0 +1,65 @@
+---
+import { Icon } from 'astro-icon/components';
+import { cva } from 'class-variance-authority';
+import Link from '@components/utilities/Link.astro';
+
+const {
+  title = 'Modular',
+  headingLevel = 'h2',
+  byline = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, at dolorum? Perspiciatis eaque tempore a rem ullam sint provident omnis officiis quae eveniet?',
+  layout = 'vertical',
+  icon = 'lightbulb-line',
+  iconShape = 'rounded',
+  background = 'default',
+  link = '/',
+} = Astro.props;
+
+const Heading = headingLevel;
+
+const styles = cva(
+  'mx-auto max-w-md flex bg-base-200 p-6 rounded-md overflow-hidden shadow-xl w-full',
+  {
+    variants: {
+      layout: {
+        horizontal: ['items-center flex-row gap-6 max-w-screen-md'],
+        vertical: ['flex-col gap-6 max-w-lg'],
+      },
+    },
+  }
+);
+
+const textStyles = cva('flex flex-col justify-center', {
+  variants: {
+    layout: {
+      horizontal: ['gap-2'],
+      vertical: ['gap-6'],
+    },
+  },
+});
+
+const iconStyle = cva('w-fit p-3', {
+  variants: {
+    iconShape: {
+      rounded: ['rounded-full'],
+      square: ['rounded-md'],
+    },
+    background: {
+      default: ['bg-tertiary-300'],
+      primary: ['bg-primary-300'],
+      secondary: ['bg-secondary-300'],
+      dark: ['bg-base-900 text-light'],
+    },
+  },
+});
+---
+
+<div class={styles({ layout })}>
+  <span class={iconStyle({ iconShape, background })}>
+    <Icon aria-hidden="true" class="w-8 h-8" name={icon} /></span
+  >
+  <div class={textStyles({ layout })}>
+    <Heading class="font-black text-xl">{title}</Heading>
+    <p>{byline}</p>
+    <Link intent="ghost" size="prose" href={link}>Learn more</Link>
+  </div>
+</div>

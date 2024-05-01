@@ -1,7 +1,60 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { cva } from 'class-variance-authority';
+
+const {
+  icon = 'logo',
+  color = 'default',
+  iconBorder = true,
+  iconSize = 'small',
+} = Astro.props;
+
+const separatorIcon = cva('flex items-center justify-center aspect-square', {
+  variants: {
+    iconBorder: {
+      true: ['border rounded-full p-2 md:p-4'],
+      false: [''],
+    },
+    color: {
+      default: ['border-base-300'],
+      secondary: ['border-tertiary-300'],
+      dark: ['border-base-800'],
+    },
+  },
+});
+
+const iconStyles = cva('w-4 h-4', {
+  variants: {
+    color: {
+      default: ['text-base-300'],
+      secondary: ['text-tertiary-300'],
+      dark: ['text-base-800'],
+    },
+    iconSize: {
+      default: ['md:w-10 md:h-10'],
+      small: ['md:w-6 md:h-6'],
+    },
+  },
+});
+
+const lineStyles = cva('h-0 w-20 md:w-44 border-b', {
+  variants: {
+    color: {
+      default: ['border-b-base-300'],
+      secondary: ['border-b-tertiary-300'],
+      dark: ['border-b-base-800'],
+    },
+  },
+});
 ---
 
-<div class="mx-auto border-4 rounded-full p-6" role="separator">
-  <Icon name="logo" class="mx-auto w-12 h-12" />
+<div
+  class="mx-auto w-fit flex items-center gap-6 justify-center col-start-2 h-32"
+  role="separator"
+>
+  <span class={lineStyles({ color })}></span>
+  <span class={separatorIcon({ iconBorder, color })}
+    ><Icon class={iconStyles({ color, iconSize })} name={icon} /></span
+  >
+  <span class={lineStyles({ color })}></span>
 </div>

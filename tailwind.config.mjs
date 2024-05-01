@@ -28,6 +28,14 @@ export default {
       backgroundImage: {
         'hero-pattern': "url('/mazey.svg')",
         pattern: "url('/maze2.svg')",
+        leaves: "url('/leaves.svg')",
+        blob: "url('/blob.svg')",
+        confetti: "url('/confetti.svg')",
+        vortex: "url('/vortex.svg')",
+        squiggle: "url('/squiggle.svg')",
+        chaos: "url('/chaos.svg')",
+        repeat: "url('/repeat.svg')",
+        shapes: "url('/shapes.svg')",
       },
       gridTemplateColumns: {
         // Simple 16 column grid

@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: #034ad8;
+    --pagefind-ui-text: rgb(71 85 105);
+    --pagefind-ui-background: #ffffff;
+    --pagefind-ui-border: #eeeeee;
+    --pagefind-ui-tag: #eeeeee;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 0.375rem;
+    --pagefind-ui-image-border-radius: 0.375rem;
+    --pagefind-ui-image-box-ratio: 3 / 2;
+    --pagefind-ui-font: sans-serif;
+    scrollbar-gutter: stable;
+  }
+
+  :root:has(dialog[open]),
+  :root:has(#toggleMenu[aria-expanded='true']) {
+    overflow: hidden;
+  }
+
+  :root:has(dialog[open] [data-full='true']) {
+    scrollbar-gutter: initial;
+  }
+}
+
+@layer components {
+  #search::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #f5f5f5;
+    border-radius: 10px;
+  }
+
+  #search::-webkit-scrollbar {
+    @apply w-2 rounded-md;
+  }
+
+  #search::-webkit-scrollbar-thumb {
+    @apply bg-tertiary-300 rounded-md;
+  }
+
+  /* animation inspired by https://codepen.io/sascha-davidson/pen/jORYgve */
+
+  @media (prefers-reduced-motion: no-preference) {
+    dialog[open] {
+      animation: scale 500ms ease normal;
+      -webkit-animation: scale 500ms ease normal;
+      animation-fill-mode: forwards;
+    }
+
+    #menuWrapper.closing {
+      animation: float-out-right 300ms ease normal;
+      -webkit-animation: float-out-right 300ms ease normal;
+    }
+
+    @media (max-width: 768px) {
+      #menuWrapper {
+        animation: float-in-right 500ms ease normal;
+        -webkit-animation: float-in-right 500ms ease normal;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+
+  @keyframes scale {
+    /* Start off-screen to the right */
+    from {
+      -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+    /* Move to the initial position (0%) */
+    to {
+      -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+      transform: scale(1);
+    }
+  }
+  /* Keyframes for sliding in an element from the right */
+  @keyframes float-in-right {
+    /* Start off-screen to the right */
+    from {
+      -webkit-transform: translate(100%);
+      -ms-transform: translate(100%);
+      transform: translateX(100%);
+    }
+    /* Move to the initial position (0%) */
+    to {
+      -webkit-transform: translate(0%);
+      -ms-transform: translate(0%);
+      transform: translateX(0%);
+    }
+  }
+
+  /* Vendor-prefixed keyframes for sliding in an element from the right (WebKit browsers) */
+  @-webkit-keyframes float-in-right {
+    /* Start from the initial position (0%) */
+    from {
+      -webkit-transform: translate(100%);
+      -ms-transform: translate(100%);
+      transform: translateX(100%);
+    }
+    /* Move off-screen to the right */
+    to {
+      -webkit-transform: translate(0%);
+      -ms-transform: translate(0%);
+      transform: translateX(0%);
+    }
+  }
+
+  /* Keyframes for sliding out an element to the right */
+  @keyframes float-out-right {
+    /* Start from the initial position (0%) */
+    from {
+      -webkit-transform: translate(0%);
+      -ms-transform: translate(0%);
+      transform: translateX(0%);
+    }
+    /* Move off-screen to the right */
+    to {
+      -webkit-transform: translate(100%);
+      -ms-transform: translate(100%);
+      transform: translateX(100%);
+    }
+  }
+
+  /* Vendor-prefixed keyframes for sliding out an element to the right (WebKit browsers) */
+  @-webkit-keyframes float-out-right {
+    /* Start from the initial position (0%) */
+    from {
+      -webkit-transform: translate(0%);
+      -ms-transform: translate(0%);
+      transform: translateX(0%);
+    }
+    /* Move off-screen to the right */
+    to {
+      -webkit-transform: translate(100%);
+      -ms-transform: translate(100%);
+      transform: translateX(100%);
+    }
+  }
+}
+
+@keyframes stickyNav {
+  100% {
+    @apply bg-light/70 backdrop-blur-md border-b-transparent top-0;
+  }
+}
+
+#main-nav {
+  @supports (animation-timeline: view()) {
+    position: sticky;
+    top: -5rem;
+    z-index: 40;
+    animation: stickyNav linear forwards;
+    animation-timeline: view();
+    animation-range-start: 150vh;
+    animation-range-end: 220vh;
+  }
+}

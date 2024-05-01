@@ -1,17 +1,20 @@
 ---
+export const prerender = false;
+import '@assets/styles/base.css';
 import Footer from '@components/global/Footer.astro';
 import Header from '@components/global/Header.astro';
 import Seo from '@components/global/Seo.astro';
+import Search from '@components/utilities/Search.astro';
 import { getImage } from 'astro:assets';
 import { getEntry } from 'astro:content';
 import { ViewTransitions } from 'astro:transitions';
-
+import { cva } from 'class-variance-authority';
 const { pageData } = Astro.props.frontmatter || Astro.props;
 const siteSettings = await getEntry('settings', 'site');
 
-import { cva } from 'class-variance-authority';
+const isDev = import.meta.env.DEV;
 
-const { layout = 'default', ...rest } = Astro.props;
+const id = Astro.url.pathname.substring(1) || 'home';
 
 const baseLayout = cva(
   'px-3 py-3 md:px-12 md:pt-12 md:pb-24 max-w-screen-2xl',
@@ -25,7 +28,7 @@ const baseLayout = cva(
   }
 );
 
-const socialImage = pageData.featuredImg
+const socialImage = pageData?.featuredImg
   ? await getImage({
       src: pageData.featuredImg?.image as ImageMetadata,
       height: 600,
@@ -45,16 +48,9 @@ const socialImage = pageData.featuredImg
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {!isDev && <link rel="sitemap" href="/sitemap-index.xml" />}
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-
-    <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-		<link rel="manifest" href="/site.webmanifest">
-		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#332020">
-		<meta name="msapplication-TileColor" content="#2b5797">
-		<meta name="theme-color" content="#ffffff"> -->
 
     <!-- SEO -->
     <Seo
@@ -63,10 +59,16 @@ const socialImage = pageData.featuredImg
       socialImage={socialImage}
     />
 
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+    <script src="/pagefind/pagefind-ui.js" is:inline></script>
+
     <ViewTransitions />
   </head>
 
-  <body class="min-h-[101vh] flex flex-col justify-between dark:bg-base-900">
+  <body
+    id={id}
+    class="min-h-[101vh] flex flex-col justify-between dark:bg-base-900"
+  >
     <Header
       siteTitle={siteSettings.data.title}
       logoIcon={siteSettings.data.logoSVG}
@@ -74,6 +76,8 @@ const socialImage = pageData.featuredImg
 
     <main class="py-3 md:pt-12 md:pb-24 max-w-screen-2xl">
       <slot />
+
+      {id !== 'home' && <Search style="border" />}
     </main>
 
     <Footer

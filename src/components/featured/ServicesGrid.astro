@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
-import { getCollection, type CollectionEntry, getEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import { cva } from 'class-variance-authority';
 import Link from '@components/utilities/Link.astro';
 
@@ -13,11 +13,14 @@ const servicesEntries: CollectionEntry<'services'>[] = await getCollection(
 );
 
 const {
+  headingLevel = 'h2',
   showImage = false,
   showButton = true,
   buttonText = 'Find out more',
   buttonLink = '/',
 } = Astro.props;
+
+const Heading = headingLevel;
 
 const imageStyles = cva('w-full object-cover h-36 border-b-current border-b', {
   variants: {
@@ -43,12 +46,12 @@ const imageStyles = cva('w-full object-cover h-36 border-b-current border-b', {
       )}
 
       <div class="space-y-3 p-3">
-        <h2 class="font-black text-xl flex items-center gap-1 justify-between">
+        <Heading class="font-black text-xl flex items-center gap-1 justify-between">
           {entry.data.title}
           {entry.data.icon && (
             <Icon aria-hidden="true" class="w-6 h-6" name={entry.data.icon} />
           )}
-        </h2>
+        </Heading>
         <hr aria-hidden="true" class="border-current" />
         <p>{entry.data.description}</p>
         {entry.data.services && (

@@ -17,20 +17,23 @@ const {
   linkTarget = '/',
 } = Astro.props;
 
-const cta = cva('flex flex-col lg:flex-row items-center gap-3 lg:gap-12', {
-  variants: {
-    layout: {
-      default: ['flex-col lg:flex-row'],
-      reverse: ['flex-col-reverse lg:flex-row-reverse'],
+const cta = cva(
+  'flex flex-col lg:flex-row items-center gap-6 lg:gap-12 relative',
+  {
+    variants: {
+      layout: {
+        default: ['flex-col lg:flex-row'],
+        reverse: ['flex-col lg:flex-row-reverse'],
+      },
     },
-  },
-});
+  }
+);
 
-const image = cva('w-44 h-44 lg:w-96 md:h-96', {
+const image = cva('w-44 h-44 md:w-96 md:h-96', {
   variants: {
     shadow: {
       false: [''],
-      true: ['rounded-md border-8 bg-base-100 border-light shadow-lg'],
+      true: ['rounded-md border-8 bg-base-100 border-light shadow-xl'],
     },
     imgContain: {
       false: ['object-cover'],
@@ -40,13 +43,15 @@ const image = cva('w-44 h-44 lg:w-96 md:h-96', {
 });
 ---
 
-<div class="space-y-6 lg:space-y-12">
-  <p class="text-xl md:text-3xl text-pretty text-center font-black">
+<div class="space-y-6 lg:space-y-12 bg-contain bg-no-repeat bg-left">
+  <p
+    class="text-xl md:text-3xl w-fit mx-auto text-pretty text-center font-black after:content-['.'] after:text-tertiary-300 after:-ml-1"
+  >
     {heading}
   </p>
   <div class={cta({ layout })}>
     <Image class={image({ shadow, imgContain })} src={img} alt={imgAlt} />
-    <div class="gap-6 flex flex-col items-center md:items-start">
+    <div class="gap-6 flex flex-col items-center lg:items-start">
       <p class="text-center lg:text-left text-pretty">
         {byline}
       </p>

@@ -1,0 +1,161 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { cva } from 'class-variance-authority';
+import Link from '@components/utilities/Link.astro';
+
+const navigationEntries: CollectionEntry<'navigation'>[] =
+  await getCollection('navigation');
+
+// sort the returned navigationEntries array by the order value so it's not just file order
+const sortedNav = navigationEntries.sort(function (a, b) {
+  return a.data.order - b.data.order;
+});
+
+const {
+  siteTitle = 'Site Title',
+  logoIcon = 'logo',
+  openText = 'Menu',
+  closeText = 'Close',
+  mobileMenu = true,
+  hideMenuText = true,
+} = Astro.props;
+
+const navWrapper = cva(
+  'flex justify-between items-center max-w-screen-xl mx-auto',
+  {
+    variants: {
+      mobileMenu: {
+        false: [''],
+        true: [''],
+      },
+    },
+  }
+);
+
+const openButtonText = cva('', {
+  variants: {
+    hideMenuText: {
+      false: [''],
+      true: ['sr-only'],
+    },
+  },
+});
+
+const openButton = cva(
+  'flex items-center focus-visible:outline md:hidden hover:outline outline-dark/5 outline-4 outline-offset-2',
+  {
+    variants: {
+      hideMenuText: {
+        false: ['h-fit rounded-md px-3 py-1 gap-1 bg-base-200'],
+        true: ['w-6 h-6 gap-0 justify-end'],
+      },
+    },
+  }
+);
+---
+
+<nav aria-label="Main navigation" class={navWrapper({ mobileMenu })}>
+  <a id="logo" class="flex items-center gap-3 textlight" href="/">
+    <span
+      class="bg-dark flex md:w-10 md:h-10 h-8 w-8 items-center justify-center p-2 md:p-2 rounded-full"
+    >
+      <Icon
+        aria-hidden="true"
+        name={logoIcon}
+        class="md:w-8 md:h-8 w-6 h-6 text-primary-300"
+      />
+    </span>
+    <span class="font-black leading-none texl-xl w-max md:text-2xl"
+      >{siteTitle}</span
+    >
+  </a>
+  <button
+    id="toggleMenu"
+    aria-expanded="false"
+    class={openButton({ hideMenuText })}
+    ><span class={openButtonText({ hideMenuText })}>{openText}</span>{
+      mobileMenu && <Icon aria-hidden="true" name="menu" />
+    }</button
+  >
+  <div
+    id="menuWrapper"
+    class="bg-base-100 md:bg-transparent md:flex items-center justify-center md:justify-end p-12 h-full md:p-0 fixed md:relative inset-0 z-40 hidden"
+  >
+    <ul
+      id="main-menu"
+      class="gridgrid-flow-colauto-cols-fr flex flex-col md:flex-row justify-center my-auto items-center capitalize gap-3 md:gap-6"
+    >
+      {
+        sortedNav.map(entry =>
+          Astro.url.pathname === entry.data.link ? (
+            <li class="text-primary-300 outline outline-2 outline-offset-2 rounded-full">
+              <Link
+                aria-current="page"
+                href={`${Astro.url.origin}${entry.data.link}`}
+                intent={'primary'}
+                size={'small'}
+                active={true}
+              >
+                {entry.data.title}
+              </Link>
+            </li>
+          ) : (
+            <li class="text-light">
+              <Link
+                href={`${Astro.url.origin}${entry.data.link}`}
+                intent={'primary'}
+                size={'small'}
+              >
+                {entry.data.title}
+              </Link>
+            </li>
+          )
+        )
+      }
+    </ul>
+
+    <button
+      id="closeMenu"
+      class="fixed z-50 top-2 right-2 text-sm md:text-base md:top-4 md:right-8 focus-within:outline mx-auto flex hover:outline hover:outline-dark/20 outline-dark/5 bg-base-200 outline-4 outline-offset-2 rounded-md px-3 py-1 md:hidden"
+      >{closeText}</button
+    >
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const menu = document.getElementById('menuWrapper');
+    const toggleButton = document.getElementById('toggleMenu');
+    const closeButton = document.getElementById('closeMenu');
+
+    toggleButton &&
+      toggleButton.addEventListener('click', () => {
+        toggleButton.setAttribute('aria-expanded', 'true');
+        menu?.classList.remove('hidden');
+        menu?.classList.add('flex');
+        const focusLink = menu?.querySelector('ul li a') as HTMLAnchorElement;
+        focusLink?.focus();
+      });
+
+    closeButton &&
+      menu &&
+      closeButton.addEventListener('click', () => {
+        toggleButton?.setAttribute('aria-expanded', 'false');
+        menu.classList.add('closing');
+        menu.addEventListener(
+          'animationend',
+          function () {
+            // After animation completes, close the menu
+
+            menu.classList.add('hidden');
+            menu.classList.remove('flex');
+            // Remove the closing class to reset for next time
+            menu.classList.remove('closing');
+            toggleButton?.focus();
+          },
+          { once: true }
+        );
+      });
+  });
+</script>

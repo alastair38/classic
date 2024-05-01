@@ -1,16 +1,51 @@
 ---
-import type { HTMLAttributes } from 'astro/types';
+import SubmissionForm, { ticketForm } from 'src/pages/_SubmissionForm';
 
-const { text } = Astro.props;
+// const sgMail = require('@sendgrid/mail'); // TODO install sendgrid client
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY); // set up env variables
+
+// const res = await Astro.locals.form.getData(ticketForm);
 ---
 
-<details open class="rounded-md p-6 shadow-2xl bg-red-300">
-  <summary class="cursor-pointer">{text}</summary>
-  <form class="flex flex-col gap-3 mt-6" action="">
-    <label class="text-sm font-bold" for="message">Message</label><textarea
-      class="rounded-md border"
-      name=""
-      id="message"></textarea>
-    <button class="bg-base-900 text-light px-6 py-2">Submit</button>
-  </form>
-</details>
+<div class="w-full mx-auto space-y-12">
+  <SubmissionForm client:visible />
+
+  <!-- <form
+    class="flex border flex-col col-start-2 text-base-600 w-96 mx-auto gap-6 rounded-md shadow-xl p-6"
+    method="POST"
+  >
+    <div class="flex flex-col space-y-3 relative">
+      <label class="text-sm font-bold" for="email">Email</label>
+      <input
+        class="rounded-md border p-2"
+        id="email"
+        {...ticketForm.inputProps.email}
+      />
+      {
+        res?.fieldErrors?.email?.map(error => (
+          <p class="px-3 py-1 border bg-[red] text-light absolute -right-1/2 top-6 rounded-md">
+            {error}
+          </p>
+        ))
+      }
+    </div>
+    <div class="space-y-3 flex flex-col">
+      <label class="text-sm font-bold" for="message">Message</label>
+      <textarea
+        class="rounded-md border min-h-44 p-2"
+        id="message"
+        {...ticketForm.inputProps.message}></textarea>
+    </div>
+    <div class="flex items-center gap-2">
+      <label class="text-sm font-bold" for="newsletter"
+        >Sign up for our newsletter</label
+      >
+      <input
+        class="rounded-md h-5 w-5 accent-tertiary-300"
+        id="newsletter"
+        {...ticketForm.inputProps.newsletter}
+      />
+    </div>
+    <button class="bg-base-900 rounded-md text-light px-6 py-2">Submit</button>
+  </form> -->
+</div>

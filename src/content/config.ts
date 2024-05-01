@@ -44,7 +44,7 @@ const pagesCollection = defineCollection({
           items: z.number().optional(),
         })
         .optional(),
-      iconCTA: z
+      iconGridCTA: z
         .object({
           title: z.string().optional(),
           byline: z.string().optional(),
@@ -61,7 +61,7 @@ const pagesCollection = defineCollection({
             .optional(),
         })
         .optional(),
-      imageCTA: z
+      withImageCTA: z
         .array(
           z.object({
             title: z.string().optional(),
@@ -70,6 +70,21 @@ const pagesCollection = defineCollection({
             shape: z.enum(['rounded', 'square']).optional(),
             border: z.boolean().optional(),
             image: z.string().optional(),
+            background: z
+              .enum(['primary', 'secondary', 'default', 'dark'])
+              .optional(),
+            link: z.string().optional(),
+          })
+        )
+        .optional(),
+      withIconCTA: z
+        .array(
+          z.object({
+            title: z.string().optional(),
+            byline: z.string().optional(),
+            layout: z.enum(['horizontal', 'vertical']).optional(),
+            iconShape: z.enum(['rounded', 'square']).optional(),
+            icon: z.string().optional(),
             background: z
               .enum(['primary', 'secondary', 'default', 'dark'])
               .optional(),
@@ -86,7 +101,7 @@ const pagesCollection = defineCollection({
           iconColor: z.enum(['primary', 'secondary', 'tertiary']).optional(),
         })
         .optional(),
-      cta: z
+      basicCTA: z
         .object({
           heading: z.string().optional(),
           byline: z.string().optional(),

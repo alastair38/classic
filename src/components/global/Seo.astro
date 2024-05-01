@@ -16,7 +16,6 @@ const {
   {settings.title}
 </title>
 <meta name="description" content={pageData?.description || settings.byline} />
-<!-- <link rel="sitemap" href="/sitemap-index.xml" /> uncomment this after checking build creates sitemap -->
 <link rel="canonical" href={url} />
 
 <!-- Open Graph -->
@@ -45,7 +44,9 @@ const {
 <meta property="og:image:height" content="600" />
 <meta
   property="og:image:alt"
-  content={pageData.featuredImg?.alt || settings.socialImage.alt}
+  content={pageData?.featuredImg?.alt
+    ? pageData?.featuredImg?.alt
+    : settings.socialImage.alt}
 />
 
 <!-- Twitter -->
@@ -61,7 +62,8 @@ const {
 />
 <meta
   name="twitter:image:alt"
-  content={pageData.featuredImg?.alt ||
-    (!socialImage?.src && settings.socialImage.alt)}
+  content={pageData?.featuredImg?.alt
+    ? pageData?.featuredImg?.alt
+    : settings.socialImage.alt}
 />
 <meta name="twitter:domain" content={Astro.url.origin} />

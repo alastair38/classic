@@ -1,0 +1,117 @@
+---
+import { Icon } from 'astro-icon/components';
+import { cva } from 'class-variance-authority';
+
+const {
+  openText = 'Open Dialog',
+  closeText = 'Close',
+  fullWidth = false,
+  hideMenuText = false,
+} = Astro.props;
+
+const contentWrapper = cva('relative grid place-content-center h-full', {
+  variants: {
+    fullWidth: {
+      false: ['p-2'],
+      true: ['p-24 w-full'],
+    },
+  },
+});
+
+const dialog = cva(
+  'space-y-6 overflow-y-auto overflow-x-hidden bg-base-100 backdrop:bg-base-700/70',
+  {
+    variants: {
+      fullWidth: {
+        false: ['w-1/2 h-3/4 rounded-md shadow-md'],
+        true: [
+          'w-full max-w-full max-h-full transition delay-300 h-full duration-500',
+        ],
+      },
+    },
+  }
+);
+
+const openButtonText = cva('', {
+  variants: {
+    hideMenuText: {
+      false: [''],
+      true: ['sr-only'],
+    },
+  },
+});
+
+const openButton = cva(
+  'flex items-center focus-visible:outline hover:outline outline-dark/5 outline-4 outline-offset-2',
+  {
+    variants: {
+      hideMenuText: {
+        false: ['h-fit rounded-md px-3 py-1 gap-1 bg-base-200'],
+        true: ['w-6 h-6 gap-0 justify-end'],
+      },
+    },
+  }
+);
+---
+
+<dialog id="dialog" data-full={`${fullWidth}`} class={dialog({ fullWidth })}>
+  <div class={contentWrapper({ fullWidth })}>
+    <slot />
+    <button
+      class="absolute top-2 right-2 text-sm md:text-base md:top-6 md:right-6 focus-within:outline mx-auto flex hover:outline hover:outline-dark/20 outline-dark/5 bg-base-200 outline-4 outline-offset-2 rounded-md px-3 py-1"
+      >{closeText}</button
+    >
+  </div>
+</dialog>
+<button
+  aria-controls="dialog"
+  aria-expanded="false"
+  class={openButton({ hideMenuText })}
+  ><span class={openButtonText({ hideMenuText })}>{openText}</span>{
+    fullWidth && <Icon aria-hidden="true" name="menu" />
+  }</button
+>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const dialog = document.querySelector('dialog');
+    const isFullWidth = dialog?.dataset.full;
+    const showButton = document.querySelector('dialog + button');
+    const closeButton = document.querySelector('dialog button');
+
+    console.log(closeButton);
+
+    // "Show the dialog" button opens the dialog modally
+    showButton &&
+      showButton.addEventListener('click', () => {
+        showButton.setAttribute('aria-expanded', 'true');
+        dialog && dialog.showModal();
+      });
+
+    // "Close" button closes the dialog
+    closeButton &&
+      dialog &&
+      closeButton.addEventListener('click', () => {
+        showButton?.setAttribute('aria-expanded', 'false');
+        dialog.close();
+
+        // if (isFullWidth === 'false') {
+        //   dialog.classList.add('closing');
+        //   dialog.addEventListener(
+        //     'animationend',
+        //     function () {
+        //       // After animation completes, close the dialog
+        //       dialog.close();
+
+        //       // Remove the closing class to reset for next time
+        //       dialog.classList.remove('closing');
+        //     },
+        //     { once: true }
+        //   );
+        // } else {
+        //   dialog.close();
+
+        // }
+      });
+  });
+</script>

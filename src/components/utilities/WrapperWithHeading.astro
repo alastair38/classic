@@ -1,0 +1,45 @@
+---
+import { cva } from 'class-variance-authority';
+import Link from '@components/utilities/Link.astro';
+
+const {
+  heading = 'Services',
+  layout = 'default',
+  showButton = true,
+  buttonText = 'Find out more',
+  buttonLink = '/',
+} = Astro.props;
+
+const styles = cva('p-4 md:p-8', {
+  variants: {
+    layout: {
+      default: ['bg-tertiary-300'],
+      grid: ['grid grid-col-1 md:grid-cols-3 gap-4 md:gap-8'],
+    },
+  },
+});
+---
+
+<div
+  class="overflow-hidden not-prose shadow-xl mx-auto rounded-md text-base-800"
+>
+  <h2
+    class="text-3xl font-seif font-black text-center bg-base-800 text-primary-300 p-3 md:p-6"
+  >
+    {heading}
+  </h2>
+
+  <div class={styles({ layout })}>
+    <slot />
+
+    {
+      showButton && (
+        <div class="col-span-full flex justify-center">
+          <Link href={buttonLink} intent="primary">
+            {buttonText}
+          </Link>
+        </div>
+      )
+    }
+  </div>
+</div>

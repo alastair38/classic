@@ -1,13 +1,10 @@
 ---
-import PageHeader from '@components/parts/PageHeader.astro';
-import People from '@components/people/People.astro';
 import Section from '@components/utilities/Section.astro';
-import Showcase from '@components/featured/Showcase.astro';
 import ServicesGrid from '@components/featured/ServicesGrid.astro';
 const { frontmatter } = Astro.props;
 ---
 
-<div class="w-3/4 mx-auto space-y-12">
+<div class="w-full md:w-3/4 mx-auto px-3 space-y-12">
   <div
     class="prose col-span-full dark:prose-invert prose-sm md:prose-base prose-h2:text-lg md:prose-h2:text-2xl prose-ol:list-roman mx-auto max-w-[75ch]"
   >
@@ -20,7 +17,7 @@ const { frontmatter } = Astro.props;
     <ServicesGrid
       buttonText="Contact us"
       showImage={false}
-      buttonLink="/about"
+      buttonLink="/contact"
     />
   </Section>
 </div>

@@ -1,0 +1,11 @@
+---
+import EmailForm from '@components/utilities/EmailForm';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ContactLayout from '@layouts/ContactLayout.astro';
+
+export const prerender = false;
+---
+
+<BaseLayout>
+  <ContactLayout> <EmailForm client:load /></ContactLayout>
+</BaseLayout>

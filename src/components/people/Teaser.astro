@@ -1,8 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { Icon } from 'astro-icon/components';
-import { getCollection, type CollectionEntry, getEntry } from 'astro:content';
-import { cva } from 'class-variance-authority';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import Link from '@components/utilities/Link.astro';
 
 const peopleEntries: CollectionEntry<'people'>[] =
@@ -11,17 +9,6 @@ const peopleEntries: CollectionEntry<'people'>[] =
 // sort the returned navigationEntries array by the order value so it's not just file order
 const sortedPeople = peopleEntries.sort(function (a, b) {
   return a.data.order - b.data.order;
-});
-
-const { heading = 'People', layout = 'default' } = Astro.props;
-
-const styles = cva('overflow-hidden shadow-md h-full rounded-md', {
-  variants: {
-    layout: {
-      default: ['row-span-1'],
-      fullHeight: ['row-span-2'],
-    },
-  },
 });
 ---
 

@@ -1,12 +1,11 @@
 ---
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 
 const {
   title = 'Page title',
   description = 'Page description',
   style = 'default',
   sticky = true,
-  ...rest
 } = Astro.props;
 
 const header = cva(

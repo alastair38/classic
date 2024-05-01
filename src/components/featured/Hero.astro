@@ -4,6 +4,7 @@ import { cva } from 'class-variance-authority';
 import Link from '@components/utilities/Link.astro';
 import { getEntry } from 'astro:content';
 import { Icon } from 'astro-icon/components';
+import Search from '@components/utilities/Search.astro';
 
 const siteSettings = await getEntry('settings', 'site');
 
@@ -40,9 +41,10 @@ const styles = cva('grid grid-cols-1 md:grid-cols-4 w-full overflow-hidden', {
     },
     fullWidth: {
       true: ['col-span-full -mt-3 md:-mt-12 bg-hero-pattern'],
-      false: ['col-start-2 rounded-md'],
+      false: ['col-start-2'],
     },
   },
+  compoundVariants: [{ fullWidth: false, shadow: true, class: 'rounded-md' }],
 });
 
 const imgWrapperStyles = cva('flex row-start-1 items-center justify-center', {
@@ -57,7 +59,7 @@ const imgWrapperStyles = cva('flex row-start-1 items-center justify-center', {
       left: ['col-start-4 md:col-start-3 col-span-1 md:col-span-2 p-2 md:p-0'],
     },
     fullWidth: {
-      true: ['md:h-[80vh]'],
+      true: ['md:h-[85vh]'],
       false: ['md:h-[70vh]'],
     },
   },

@@ -7,6 +7,7 @@ const {
   width = 'full',
   spacing = 'default',
   layout = 'default',
+  heading = '',
   ...rest
 } = Astro.props;
 
@@ -24,12 +25,10 @@ const section = cva('mx-auto not-prose col-start-2', {
       large: ['my-12 md:my-24'],
     },
     layout: {
-      default: ['space-y-6'],
-      grid: [
-        'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 lg:gap-12',
-      ],
+      default: ['space-y-6 lg:space-y-12'],
+      grid: ['grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12'],
       autogrid: [
-        'grid grid-cols-1 md:grid-cols-2 lg:grid-flow-col gap-3 md:gap-6 lg:gap-12',
+        'grid grid-cols-1 md:grid-cols-2 lg:grid-flow-col gap-3 lg:gap-12',
       ],
     },
     type: {},
@@ -38,5 +37,12 @@ const section = cva('mx-auto not-prose col-start-2', {
 ---
 
 <TagName {...rest} class={section({ width, spacing, layout })}>
+  {
+    heading && (
+      <h2 class="text-xl w-fit col-span-full font-black md:text-3xl after:content-['.'] after:text-tertiary-300 after:-ml-1">
+        {heading}
+      </h2>
+    )
+  }
   <slot />
 </TagName>

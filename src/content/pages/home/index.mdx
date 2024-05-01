@@ -10,20 +10,29 @@ slug: '/'
 # home page components
 
 hero:
-  img: ./mountain.jpg
+  img: './mountain.jpg'
   imgAlt: Some descripiton
   shadow: true
   fullWidth: true
-  duotone: true
+  duotone: false
   textOnly: true
-  showLogo: true
+  showLogo: false
   background: dark
   textPosition: center
   imgSize: full
   linkStyle: primary
   linkTarget: /services
 
-imageCTA:
+basicCTA:
+  heading: A new way of thinking
+  byline: Multiple manifestations of critical thinking disorders can result in a partial misundertanding of cyclic harmonic repitition, in sympathetic resonance with isotropic transfer functions completing astral holographic projection.
+  layout: reverse
+  imgContain: false
+  shadow: true
+  img: '@assets/images/sitting.png'
+  linkTarget: /team
+
+withImageCTA:
   - title: Hello
     byline: Lorem ipsum dolor sit amet consectetur adipisicing elit.
     image: Two
@@ -43,19 +52,28 @@ imageCTA:
     layout: vertical
     link: '/about'
 
+withIconCTA:
+  - title: Hello
+    byline: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    layout: vertical
+    icon: layers-line
+    link: '/work'
+  - title: What?
+    byline: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    background: primary
+    layout: vertical
+    link: '/work'
+  - title: Goodbye
+    byline: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    background: secondary
+    layout: vertical
+    icon: brackets
+    link: '/about'
+
 quote:
   style: upper
   weight: heavy
   text: Defining the underlying principles that drive decisions and strategy
   citation: Bob Brewster, CEO
   iconColor: secondary
-
-cta:
-  heading: We need to harvest synergy effects
-  byline: Leverage skillsets to achieve maximum market share. Actualize the key action and markets. Going forward, we should leverage the asset.
-  layout: reverse
-  imgContain: true
-  shadow: true
-  img: '@assets/images/cta/One.png'
-  linkTarget: /team
 ---

@@ -1,9 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-import { Icon } from 'astro-icon/components';
-import { getCollection, type CollectionEntry, getEntry } from 'astro:content';
 import { cva } from 'class-variance-authority';
-import Link from '@components/utilities/Link.astro';
 import ServicesGrid from '@components/featured/ServicesGrid.astro';
 
 const { heading = 'Services', layout = 'default' } = Astro.props;
@@ -19,15 +15,6 @@ const styles = cva(
     },
   }
 );
-
-const imageStyles = cva('w-full object-cover h-36 border-b-current border-b', {
-  variants: {
-    image: {
-      true: ['block'],
-      false: ['hidden'],
-    },
-  },
-});
 ---
 
 <div
@@ -36,6 +23,6 @@ const imageStyles = cva('w-full object-cover h-36 border-b-current border-b', {
   <h2 class={styles({ layout })}>{heading}</h2>
 
   <div class="grid grid-col-1 md:grid-cols-3 gap-4 md:gap-8 p-4 md:p-8">
-    <ServicesGrid />
+    <ServicesGrid headingLevel="h3" />
   </div>
 </div>

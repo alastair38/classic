@@ -1,17 +1,19 @@
 ---
-import IconCTA from '@components/cta/IconCTA.astro';
+import IconGridCTA from '@components/cta/IconGridCTA.astro';
 import Hero from '@components/featured/Hero.astro';
-import Showcase from '@components/featured/Showcase.astro';
 import Section from '@components/utilities/Section.astro';
-import ImageCTA from '@components/cta/ImageCTA.astro';
-import Quote from '@components/utilities/Quote.astro';
-
 import { getEntry } from 'astro:content';
-import CTA from '@components/cta/CTA.astro';
+import BasicCTA from '@components/cta/BasicCTA.astro';
+import WithIconCTA from '@components/cta/WithIconCTA.astro';
+import Separator from '@components/utilities/Separator.astro';
+import Dialog from '@components/utilities/Dialog.astro';
+import Search from '@components/utilities/Search.astro';
+
 const entry = await getEntry('pages', '/');
 ---
 
 <div
+  id="home"
   class="flexflex-col grid grid-cols-mobile md:grid-cols-main gap-y-12 md:gap-y-24"
 >
   {
@@ -32,45 +34,48 @@ const entry = await getEntry('pages', '/');
     )
   }
 
-  <!-- {
-    entry.data.hero && (
-      <Hero
-        textOnly={entry.data.hero.textOnly}
-        showLogo={entry.data.hero.showLogo}
-        textStyle={entry.data.hero.textStyle}
-        linkStyle={entry.data.hero.linkStyle}
-        linkTarget={entry.data.hero.linkTarget}
-      />
-    )
-  } -->
+  <section class="col-start-2">
+    <button popovertarget="my-popover" class="border rounded-md px-3 py-1"
+      >Open Popover</button
+    >
+  </section>
 
   {
-    entry.data.quote && (
-      <Quote
-        style={entry.data.quote.style}
-        weight={entry.data.quote.weight}
-        text={entry.data.quote.text}
-        citation={entry.data.quote.citation}
-        iconColor={entry.data.quote.iconColor}
-      />
+    entry.data.basicCTA && (
+      <Section type="section" width="small">
+        <BasicCTA
+          heading={entry.data.basicCTA.heading}
+          byline={entry.data.basicCTA.byline}
+          layout={entry.data.basicCTA.layout}
+          shadow={entry.data.basicCTA.shadow}
+          imgContain={entry.data.basicCTA.imgContain}
+          img={entry.data.basicCTA.img}
+          imgAlt={entry.data.basicCTA.imgAlt}
+          linkStyle={entry.data.basicCTA.linkStyle}
+          linkTarget={entry.data.basicCTA.linkTarget}
+          linkText={entry.data.basicCTA.linkText}
+        />
+      </Section>
     )
   }
+  <Separator icon="lightbulb-line" iconBorder={false} />
 
   {
-    entry.data.imageCTA && (
+    entry.data.withIconCTA && (
       <Section
         type="section"
-        width={entry.data.imageCTA.length > 2 ? 'full' : 'medium'}
+        width="medium"
         layout="grid"
+        heading="Our services"
       >
-        {entry.data.imageCTA.map(cta => (
-          <ImageCTA
+        {entry.data.withIconCTA.map(cta => (
+          <WithIconCTA
             title={cta.title}
+            headingLevel="h3"
             byline={cta.byline}
             layout={cta.layout}
-            shape={cta.shape}
-            border={cta.border}
-            image={cta.image}
+            iconShape={cta.iconShape}
+            icon={cta.icon}
             background={cta.background}
             link={cta.link}
           />
@@ -79,34 +84,7 @@ const entry = await getEntry('pages', '/');
     )
   }
 
-  {
-    entry.data.cta && (
-      <Section type="section" width="small" spacing="large">
-        <CTA
-          heading={entry.data.cta.heading}
-          byline={entry.data.cta.byline}
-          layout={entry.data.cta.layout}
-          shadow={entry.data.cta.shadow}
-          imgContain={entry.data.cta.imgContain}
-          img={entry.data.cta.img}
-          imgAlt={entry.data.cta.imgAlt}
-          linkStyle={entry.data.cta.linkStyle}
-          linkTarget={entry.data.cta.linkTarget}
-          linkText={entry.data.cta.linkText}
-        />
-      </Section>
-    )
-  }
-
-  <Section width="small" spacing="large">
-    <CTA />
-  </Section>
-
-  <Section width="small" spacing="large">
-    <IconCTA border={true} layout="horizontal" />
-  </Section>
-
-  <Section width="medium">
-    <Showcase layout="fullHeight" image={false} showButton={true} />
+  <Section width="medium" spacing="large">
+    <IconGridCTA border={true} layout="horizontal" />
   </Section>
 </div>

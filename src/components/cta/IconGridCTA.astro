@@ -5,6 +5,7 @@ import Link from '@components/utilities/Link.astro';
 
 const {
   title = 'Modular. Connected. Scaleable.',
+  headingLevel = 'h2',
   byline = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, at dolorum? Perspiciatis eaque tempore a rem ullam sint provident omnis officiis quae eveniet?',
   layout = 'vertical',
   shape = 'square',
@@ -16,6 +17,8 @@ const {
     three: 'launchpad-line',
   },
 } = Astro.props;
+
+const Heading = headingLevel;
 
 const styles = cva('overflow-hidden mx-auto grid gap-6', {
   variants: {
@@ -49,7 +52,7 @@ const shapeStyle = cva(
 
 <div class={styles({ border, layout })}>
   <div class="z-10 col-span-3 flex flex-col justify-between itemscenter gap-2">
-    <h2 class="font-black text-xl">{title}</h2>
+    <Heading class="font-black text-xl">{title}</Heading>
     <p>{byline}</p>
     <Link intent="ghost" size="prose" href={link}>Learn more </Link>
   </div>

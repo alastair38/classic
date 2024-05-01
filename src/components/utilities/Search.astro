@@ -1,0 +1,35 @@
+---
+import { cva } from 'class-variance-authority';
+
+const { style = 'default' } = Astro.props;
+
+const search = cva(
+  'fixed max-h-96 overflow-y-auto overflow-x-hidden bottom-3 right-3 w-56 md:w-1/4 mx-auto p-2 rounded-md',
+  {
+    variants: {
+      style: {
+        default: ['bg-light'],
+        border: ['border border-base-300 bg-light'],
+        dark: ['bg-base-800 text-light'],
+      },
+    },
+  }
+);
+---
+
+<div class={search({ style })} id="search"></div>
+
+<script>
+  document.addEventListener('astro:page-load', event => {
+    const searchContainer = document.getElementById('search');
+
+    if (searchContainer) {
+      // @ts-ignore
+      new PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+      });
+    }
+  });
+</script>
